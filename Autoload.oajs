@@ -1,0 +1,19 @@
+/** Author: CAMOTbIK
+ *  Rev date: 24.01.2018
+ *  Shard: UO Forever
+ */ 
+
+function includeJs(jsFilePath) {
+    var js = document.createElement("script");
+
+    js.type = "text/javascript";
+    js.src = jsFilePath;
+
+    document.body.appendChild(js);
+}
+
+includeJs("includes/_includes.js");
+
+function test(){
+    debug(Test);
+}

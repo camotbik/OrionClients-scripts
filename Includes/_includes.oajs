@@ -1,0 +1,26 @@
+/** Function to recieve response from server
+ * Usage: checklag(5000);
+ * @param {number} TimeOut 
+ */
+function checklag(TimeOut) {
+    BeforeAction = Orion.Now();
+    AfterAction = Orion.Now() + TimeOut;
+    Orion.Click(backpack);
+    Orion.WaitJournal('backpack', BeforeAction, AfterAction, '');
+}
+
+/** Function for debuging other functions
+ * Usage: Debug(Sample text); 
+ * @param {string} InputText 
+ */
+function debug(InputText) {
+    var DebugMessages = true;
+    if (DebugMessages) {
+        Orion.Print('--  ' + InputText + '  --');
+        Orion.CharPrint(self, 1153, '--  ' + InputText + '  --');
+        if (!TextWindow.Open()) {
+            TextWindow.Open();
+        }
+        TextWindow.Print(Orion.Time('hh:mm:ss') + '--  ' + InputText + '  --');
+    }
+}
