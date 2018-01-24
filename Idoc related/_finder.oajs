@@ -1,0 +1,23 @@
+function FindIdoc() {
+    while (true) {
+        var list = Orion.FindType('0x0BD2', -1, 'ground', '', '99'); // got to add more types of signs
+        for (var i = 0; i < list.length; i++) {
+            BeforeAction = Orion.Now();
+            Orion.Click(list[i]);
+            checklag(50000); // might want to comment if not including checklag
+            Orion.Wait(100);
+            AfterAction = Orion.Now();
+            if (Orion.InJournal('Fairly Worn', '-1', 'my', '-1', BeforeAction, AfterAction)) {
+                Debug(Player.X() + ' ' + Player.Y() + ' ' + list[i] + ' Fairly Worn');
+            }
+            if (Orion.InJournal('Greatly Worn', '-1', 'my', '-1', BeforeAction, AfterAction)) {
+                Debug(Player.X() + ' ' + Player.Y() + ' ' + list[i] + ' Greatly Worn');
+            }
+            if (Orion.InJournal('Danger of Collapsing', '-1', 'my', '-1', BeforeAction, AfterAction)) {
+                Debug(Player.X() + ' ' + Player.Y() + ' ' + list[i] + ' Danger of collapse');
+            }
+            Orion.Ignore(list[i]);
+        }
+        Orion.Wait(100);
+    }
+}
