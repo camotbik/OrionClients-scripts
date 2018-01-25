@@ -1,0 +1,58 @@
+/** function for uploading/unloading stuff from container to container. 
+ * Usage: Upload('0x0F88|0x0F7B|0x0F7A|0x0F84|0x0F85|0x0F8C|0x0F86|0x0F8D|0x0F09|0x0F0C|0x0F0B|0x0E21|0x1F5F|0x1F49|0x1F4A|0x1F50|0x1F4C|0x1F52', '-1', '3600', 'self', '0x4054553D');
+ * @param {string} Upload_itemtypes 
+ * @param {string} Upload_itemtypescolor 
+ * @param {number} Upload_ammount 
+ * @param {id} upload_source 
+ * @param {id} upload_destination 
+ */
+function upload(upload_itemstypes, upload_itemstypescolor, upload_ammount, upload_source, upload_destination) {
+    var list = Orion.FindType(upload_itemstypes, upload_itemstypescolor, upload_source, '', '0', '', true);
+    for (var i = 0; i < list.length; i++) {
+        Orion.MoveItem(list[i], upload_ammount, upload_destination);
+        Checklag(50000);
+        Orion.Wait(600);
+    }
+}
+
+/** function for restocking items to exact ammounts   
+ * Usage: Restock2([
+        // Restock [type, ammount, color], from, to
+        ['0x0F88', 15, 0x0000], // 
+        ['0x0F7B', 25, 0x0000], //
+        ['0x0F7A', 35, 0x0000], //
+        ['0x0F84', 45, 0x0000], //
+        ['0x0F8C', 55, 0x0000], //
+        ['0x0F85', 65, 0x0000], //
+        ['0x0F86', 75, 0x0000], //
+        ['0x0F8D', 85, 0x0000], //
+        ['0x0F09', 90, 0x0000], //
+        ['0x0F0C', 5, 0x0000], //
+        ['0x0F0B', 3, 0x0512], // Invisibility potion
+        ['0x0E21', 100, 0x0000], //
+        ['0x1F5F', 20, 0x0000], //
+        ['0x1F49', 20, 0x0000], //
+        ['0x1F4A', 20, 0x0000], //
+        ['0x1F50', 15, 0x0000], //
+        ['0x1F4C', 6, 0x0000], //
+        ['0x1F52', 12, -1] //
+    ], '0x4054553D', 'backpack');
+ * @param {string list} restock_items 
+ * @param {id} restock_source
+ * @param {id} restock_destination 
+ */
+function restock2(restock_items, restock_source, restock_destination) {
+    var CurrentItem = restock_items;
+    var CurrentRow = CurrentItem.length;
+    for (i = 0; i < CurrentRow - 1; i++) {
+        var CurrentItemLocal = Orion.Count(CurrentItem[i][0]);
+        if (CurrentItemLocal < CurrentItem[i][1]) {
+            itemfound = Orion.FindType(CurrentItem[i][0], CurrentItem[i][2], restock_source);
+            if (itemfound.length) {
+                Orion.MoveItem(itemfound[0], CurrentItem[i][1] - CurrentItemLocal, restock_destination);
+                Checklag(50000);
+                Orion.Wait(600);
+            }
+        }
+    }
+}
