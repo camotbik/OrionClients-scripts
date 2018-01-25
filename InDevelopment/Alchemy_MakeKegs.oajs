@@ -1,0 +1,37 @@
+function CountMakeBottle() {
+    while (Orion.Count('0x0F0B', '0x0000') < 100) {
+        Orion.CharPrint(self, 1153, 'You have made ' + Orion.Count('0x0F0B') + ' potions');
+        Orion.Wait(1000);
+    }
+}
+// RegType, MinRegQuantity, GumpCategoryNumber, GumpSelection Number, ReadyBottleType, QuantityToMake
+function Alchemy(RegType, MinRegQuantity, GumpCategoryNumber, GumpSelectionNumber, ReadyBottleType, QuantityToMake) { 
+}
+
+function FillKeg() {
+    var CurrentKeg = Orion.FindType('0x1940');
+    var CurrentPotion = Orion.FindType('0x0F0B');
+    top:
+        while (Orion.Count('0x0F0B') > 0) {
+            for (var i = 0; i < CurrentPotion.length; i++) {
+                BeforeAction = Orion.Now();
+                Orion.MoveItem(CurrentPotion[i], 999, CurrentKeg);
+                Checklag(50000);
+                Orion.Wait(1000);
+                if (Orion.InJournal('The keg will not hold any more!', -1, 'my', -1, BeforeAction, Orion.Now())) {
+                    Orion.CharPrint(self, 1153, 'Keg is full,  ' + Orion.Count('0x0F0B') + ' potions left over..');
+                    break top; // for future - maybe return full?
+                } else {
+                    Orion.CharPrint(self, 1153, 'Still filling keg ' + Orion.Count('0x0F0B') + ' potions');
+                }
+            }
+        }
+    Orion.CharPrint(self, 1153, 'Filling keg finished');
+}
+
+function Checklag(TimeOut) {
+    BeforeAction = Orion.Now();
+    AfterAction = Orion.Now() + TimeOut;
+    Orion.Click(backpack);
+    Orion.WaitJournal('backpack', BeforeAction, AfterAction, '');
+}

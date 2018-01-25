@@ -2,7 +2,7 @@
  * Usage: checklag(5000);
  * @param {number} TimeOut 
  */
-function checklag(TimeOut) {
+export function checklag(TimeOut) {
     BeforeAction = Orion.Now();
     AfterAction = Orion.Now() + TimeOut;
     Orion.Click(backpack);
@@ -13,7 +13,7 @@ function checklag(TimeOut) {
  * Usage: Debug(Sample text); 
  * @param {string} InputText  
  */
-function debug(InputText) {
+export function debug(InputText) {
     var DebugMessages = true;
     if (DebugMessages) {
         Orion.Print('--  ' + InputText + '  --');
