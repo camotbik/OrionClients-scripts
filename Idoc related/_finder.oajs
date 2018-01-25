@@ -1,6 +1,6 @@
 function FindIdoc() {
     while (true) {
-        var list = Orion.FindType('0x0BD2', -1, 'ground', '', '99'); // got to add more types of signs
+        var list = Orion.FindType('0x0BCF|0x0BD0|0x0BD1|0x0BD2|0x1F28|0x1F29 |0x1297|0x1298|0x1299|0x129A|0x129B|0x129C|0x129D|0x129E', -1, 'ground', '', '99'); // got to add more types of signs
         for (var i = 0; i < list.length; i++) {
             BeforeAction = Orion.Now();
             Orion.Click(list[i]);
@@ -20,4 +20,11 @@ function FindIdoc() {
         }
         Orion.Wait(100);
     }
+}
+
+function checklag(TimeOut) {
+    BeforeAction = Orion.Now();
+    AfterAction = Orion.Now() + TimeOut;
+    Orion.Click(backpack);
+    Orion.WaitJournal('backpack', BeforeAction, AfterAction, '');
 }
