@@ -1,0 +1,66 @@
+function AutoBandage() {
+    while (Player.Hits() > 1) {
+        if (Player.MaxHits() > Player.Hits()) {
+            BeforeAction = Orion.Now();
+            Orion.BandageSelf();
+            checklag(5000);
+            AfterAction = Orion.Now() + 60000;
+            while (!Orion.InJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '')) {
+                Cure();
+                Orion.Wait(100)
+            }
+            debug('We finished bandaging');
+        }
+        Orion.Wait(10);
+    }
+}
+
+function Cure() {
+    while (Player.Poisoned() && (Orion.Count('0x0F07', -1, 'backpack', '0', true) > 0)) {
+        ToggleHandsLeft();
+        Orion.UseType('0x0F07');
+        debug('We used a cure potion');
+        Orion.Wait('100');
+    }
+}
+
+function ToggleHandsLeft()
+{
+    var LeftHandObject = Orion.ObjAtLayer("LeftHand");
+    if (LeftHandObject != null)
+    {
+        if (Orion.GetSerial("LeftHandItem") != LeftHandObject.Serial())
+        {
+            Orion.AddObject("LeftHandItem", LeftHandObject.Serial());
+        }
+        Orion.Unequip("LeftHand");    
+        checklag(5000);    
+    }
+}
+
+/** Function to recieve response from server
+ * Usage: checklag(5000);
+ * @param {number} TimeOut 
+ */
+function checklag(TimeOut) {
+    BeforeActionChecklag = Orion.Now();
+    AfterActionChecklag = Orion.Now() + TimeOut;
+    Orion.Click(backpack);
+    Orion.WaitJournal('backpack', BeforeActionChecklag, AfterActionChecklag, '');
+}
+
+/** Function for debuging other functions
+ * Usage: Debug(Sample text); 
+ * @param {string} InputText  
+ */
+function debug(InputText) {
+    var DebugMessages = true;
+    if (DebugMessages) {
+        Orion.Print('--  ' + InputText + '  --');
+        Orion.CharPrint(self, 1153, '--  ' + InputText + '  --');
+        if (!TextWindow.Open()) {
+            TextWindow.Open();
+        }
+        TextWindow.Print(Orion.Time('hh:mm:ss') + '--  ' + InputText + '  --');
+    }
+}
