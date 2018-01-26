@@ -11,11 +11,11 @@ function AutoBandage() {
                 Orion.BandageSelf();      // we use wait and use bandages again
             }
             BandageTimeOut = Orion.Now() + 25000;
-            while (Player.Hits() > 1) {
+            while (Player.Hits() < Player.MaxHits()) {
                 Cure();
                 Orion.Wait(1000);
                 debug('Healing in process');
-                if (Orion.InJournal('not damaged|the bandages', '0', 'my', -1, BeforeAction, Orion.Now())) {
+                if (Orion.InJournal('not damaged|You finish applying the bandages', '0', 'my', -1, BeforeAction, Orion.Now())) {
                     debug('We finished bandaging');
                     break
                 }
