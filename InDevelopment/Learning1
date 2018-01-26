@@ -1,11 +1,44 @@
 function AutoBandage() {
-    if (Player.MaxHits() > Player.Hits()){
-        BeforeAction = Orion.Now();
-        Orion.BandageSelf();
-        AfterAction = Orion.Now() + 60000;
-            Orion.WaitJournal('not damaged|finish applying', BeforeAction, AfterAction, '');
+    while (Player.Hits() > 1) {
+        if (Player.MaxHits() > Player.Hits()) {
+            BeforeAction = Orion.Now();
+            Orion.BandageSelf();
+            Orion.Wait(300);
+            AfterAction = Orion.Now() + 60000;
+            //Cure();
+            //Orion.WaitJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '');
+            while (!Orion.InJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '')){
+                Cure()
+                Orion.Wait(100);
+            }
             Orion.Print('We have finished bandaging')
-    } else{
-        Orion.Print('We are on full health')
-    }   
+        }
+    }
+}
+
+function Cure() {
+    while (Player.Poisoned() && (Orion.Count('0x0F07', -1, 'backpack', '0', true) > 0)) {
+        ToggleHandsLeft();
+        Orion.UseType('0x0F07');
+        Orion.Wait('100');
+    }
+}
+
+function ToggleHandsLeft() {
+    var LeftHandObject = Orion.ObjAtLayer("LeftHand");
+    var RightHandObject = Orion.ObjAtLayer("RightHand");
+    if (LeftHandObject != null) {
+        if (Orion.GetSerial("LeftHandItem") != LeftHandObject.Serial()) {
+            Orion.AddObject("LeftHandItem", LeftHandObject.Serial());
+        }
+        Orion.Unequip("LeftHand");
+    }
+    if (RightHandObject != null) 
+        (Orion.ObjectExists("RightHandItem"))
+
+    
+    {
+        Orion.Unequip("RightHand");
+        Orion.Equip(Orion.GetSerial("LeftHandItem"));
+    }
 }
