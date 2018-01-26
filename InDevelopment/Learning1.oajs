@@ -1,18 +1,30 @@
 function AutoBandage() {
     while (Player.Hits() > 1) {
-        FirstFindCurePotion = true;
         if (Player.MaxHits() > Player.Hits()) {
+            Orion.ClearJournal;
             BeforeAction = Orion.Now();
             Orion.BandageSelf();
             checklag(5000);
-            AfterAction = Orion.Now() + 60000;
-            while (!Orion.InJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '')) {
-                if (FirstFindCurePotion = true) {
-                    Cure();
-                }
-                Orion.Wait(100);
+            if (Orion.InJournal('You must wait to perform another action', '0', 'my', -1, BeforeAction, Orion.Now())) {
+                debug('Wait to perform'); // If for some reason we get  
+                Orion.Wait(600);          // the wait to peform message
+                Orion.BandageSelf();      // we use wait and use bandages again
             }
-            debug('We finished bandaging');
+            BandageTimeOut = Orion.Now() + 25000;
+            while (Player.Hits() > 1) {
+                Cure();
+                Orion.Wait(1000);
+                debug('Healing in process');
+                if (Orion.InJournal('not damaged|the bandages', '0', 'my', -1, BeforeAction, Orion.Now())) {
+                    debug('We finished bandaging');
+                    break
+                }
+                if (Orion.Now() > BandageTimeOut) {
+                    debug('Healing Timeout');
+                    break
+                }
+            }
+
         }
         Orion.Wait(10);
     }
@@ -26,8 +38,7 @@ function Cure() {
             debug('We used a cure potion');
             Orion.Wait('100');
         } else {
-            FirstFindCurePotion = false;
-            debug('Cure potions not found');
+            // debug('Cure potions not found'); // no reason to spam i guess
         }
     }
 }
