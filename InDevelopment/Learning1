@@ -5,13 +5,11 @@ function AutoBandage() {
             Orion.BandageSelf();
             Orion.Wait(300);
             AfterAction = Orion.Now() + 60000;
-            //Cure();
-            //Orion.WaitJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '');
             while (!Orion.InJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '')){
                 Cure()
                 Orion.Wait(100);
             }
-            Orion.Print('We have finished bandaging')
+            Orion.Print('We have finished bandaging ')
         }
     }
 }
@@ -35,8 +33,6 @@ function ToggleHandsLeft() {
     }
     if (RightHandObject != null) 
         (Orion.ObjectExists("RightHandItem"))
-
-    
     {
         Orion.Unequip("RightHand");
         Orion.Equip(Orion.GetSerial("LeftHandItem"));
