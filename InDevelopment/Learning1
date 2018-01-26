@@ -1,0 +1,10 @@
+function AutoBandage() {
+    if (!Player.MaxHits() > Player.MaxHits()){
+        BeforeAction = Orion.Now();
+        macro.AddAction('BandageSelf');
+        AfterAction = Orion.Now() + 60000;
+            Orion.WaitJournal('not damaged|finish applying', BeforeAction, AfterAction, '');
+    } else{
+        Orion.Print('We are on full health')
+    }
+}
