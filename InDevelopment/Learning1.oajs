@@ -1,13 +1,16 @@
 function AutoBandage() {
     while (Player.Hits() > 1) {
+        FirstFindCurePotion = true;
         if (Player.MaxHits() > Player.Hits()) {
             BeforeAction = Orion.Now();
             Orion.BandageSelf();
             checklag(5000);
             AfterAction = Orion.Now() + 60000;
             while (!Orion.InJournal('not damaged|finish applying|finish healing', BeforeAction, AfterAction, '')) {
-                Cure();
-                Orion.Wait(100)
+                if (FirstFindCurePotion = true) {
+                    Cure();
+                }
+                Orion.Wait(100);
             }
             debug('We finished bandaging');
         }
@@ -16,31 +19,33 @@ function AutoBandage() {
 }
 
 function Cure() {
-    while (Player.Poisoned() && (Orion.Count('0x0F07', -1, 'backpack', '0', true) > 0)) {
-        ToggleHandsLeft();
-        Orion.UseType('0x0F07');
-        debug('We used a cure potion');
-        Orion.Wait('100');
+    if (Player.Poisoned()) {
+        if (Orion.Count('0x0F07', -1, 'backpack', '0', true) > 0) {
+            ToggleHandsLeft();
+            Orion.UseType('0x0F07');
+            debug('We used a cure potion');
+            Orion.Wait('100');
+        } else {
+            FirstFindCurePotion = false;
+            debug('Cure potions not found');
+        }
     }
 }
 
-function ToggleHandsLeft()
-{
+function ToggleHandsLeft() {
     var LeftHandObject = Orion.ObjAtLayer("LeftHand");
-    if (LeftHandObject != null)
-    {
-        if (Orion.GetSerial("LeftHandItem") != LeftHandObject.Serial())
-        {
+    if (LeftHandObject != null) {
+        if (Orion.GetSerial("LeftHandItem") != LeftHandObject.Serial()) {
             Orion.AddObject("LeftHandItem", LeftHandObject.Serial());
         }
-        Orion.Unequip("LeftHand");    
-        checklag(5000);    
+        Orion.Unequip("LeftHand");
+        checklag(5000);
     }
 }
 
 /** Function to recieve response from server
  * Usage: checklag(5000);
- * @param {number} TimeOut 
+ * @param {number} TimeOut
  */
 function checklag(TimeOut) {
     BeforeActionChecklag = Orion.Now();
@@ -50,8 +55,8 @@ function checklag(TimeOut) {
 }
 
 /** Function for debuging other functions
- * Usage: Debug(Sample text); 
- * @param {string} InputText  
+ * Usage: Debug(Sample text);
+ * @param {string} InputText
  */
 function debug(InputText) {
     var DebugMessages = true;
