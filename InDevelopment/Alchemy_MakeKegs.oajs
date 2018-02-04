@@ -66,9 +66,9 @@ function Craft_GreaterExplosion() {
              restock2([[currentreg, 400, 0x0000],[]], regbag, 'backpack');
              Orion.UseType(crafttool);
          }
-         Orion.WaitGump(Orion.CreateGumpHook(selection));
-         Orion.WaitForGump(1000);
          Orion.CancelWaitGump();
+         Orion.WaitGump(Orion.CreateGumpHook(selection));
+         Orion.WaitForGump(2000);
          Orion.Print('Potion ready')
      }
       restock2([['0x1940', 999, kegcolor],[]], 'backpack', fullkegs); // Unload finished keg
