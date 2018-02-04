@@ -12,6 +12,13 @@ function Craft_GreaterExplosion() {
     }
  }
  
+ function Craft_TotalRefresh() {
+    for (u = 1; u < 10; u++) {
+     Alchemy('0x0F0B', 'bp', 1, 9, '0x4127F68B', '0x407356A4', 0x0022, '0x40988F49', '0x40989082') // would craft greater heal
+    debug('This was keg Nr ' + [u]);
+    }
+ }
+ 
  function FillKeg(Filltype) {
      var CurrentKeg = Orion.FindType('0x1940');
      var CurrentPotion = Orion.FindType(Filltype);
