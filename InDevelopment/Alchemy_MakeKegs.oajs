@@ -73,7 +73,7 @@ function Craft_GreaterAgility() {
      debug('started crafting keg');
      while (!Orion.Count(craftedpottype, '-1', backpack) > 0) {
          restock2([[currentreg, 400, 0x0000],[]], regbag, 'backpack');
-     restock2([[crafttool, 1, 0x0000],[]], crafttoolbag, 'backpack');
+         restock2([[crafttool, 1, 0x0000],[]], crafttoolbag, 'backpack');
          Orion.Print('Crafting pot for keg');
          Orion.UseType(crafttool);
          Orion.CancelWaitGump();
@@ -102,9 +102,9 @@ function Craft_GreaterAgility() {
          Orion.WaitGump(Orion.CreateGumpHook(selection));
          Orion.WaitForGump(2000);
          Orion.Print('Potion ready')
-     }
-      restock2([['0x1940', 999, kegcolor],[]], 'backpack', fullkegs); // Unload finished keg
-     debug('finished crafting keg');
+    }
+    restock2([['0x1940', 999, kegcolor],[]], 'backpack', fullkegs); // Unload finished keg
+    debug('finished crafting keg');
  }
  
  function checklag(TimeOut) {
