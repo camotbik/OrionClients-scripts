@@ -1,3 +1,6 @@
+
+
+
 function Craft_GreaterAgility() {
     for (u = 1; u < 4; u++) {
      Alchemy('0x0F08', 'bm', 8, 9, '0x4127F68B', '0x407356A4', 0x005E, '0x40988F49', '0x40989082') // would craft greater cure
@@ -7,7 +10,7 @@ function Craft_GreaterAgility() {
  
  function Craft_GreaterStrenght() {
     for (u = 1; u < 4; u++) {
-     Alchemy('0x0F09', 'mr', 29, 9, '0x4127F68B', '0x407356A4', 0x03E9, '0x40988F49', '0x40989082') // would craft greater cure
+     Alchemy('0x0F09', 'mr', 29, 9, '0x4127F68B', '0x407356A4', 0x03E7, '0x40988F49', '0x40989082') // would craft greater cure
     debug('This was keg Nr ' + [u]);
     }
  }
@@ -140,4 +143,21 @@ function Craft_GreaterAgility() {
          }
          TextWindow.Print(Orion.Time('hh:mm:ss') + '--  ' + InputText + '  --');
      }
+ }
+ 
+ var startTime, endTime;
+ 
+ function start() {
+   startTime = new Date();
+ };
+ 
+ function end() {
+   endTime = new Date();
+   var timeDiff = endTime - startTime; //in ms
+   // strip the ms
+   timeDiff /= 1000;
+ 
+   // get seconds 
+   var seconds = Math.round(timeDiff);
+   Orion.Print(seconds + " seconds");
  }
