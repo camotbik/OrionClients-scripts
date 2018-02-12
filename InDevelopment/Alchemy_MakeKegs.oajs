@@ -1,146 +1,178 @@
-
-
-
 function Craft_GreaterAgility() {
     for (u = 1; u < 4; u++) {
-     Alchemy('0x0F08', 'bm', 8, 9, '0x4127F68B', '0x407356A4', 0x005E, '0x40988F49', '0x40989082') // would craft greater agility
-    debug('This was keg Nr ' + [u]);
+        Alchemy('0x0F08', 'bm', 8, 9, '0x4127F68B', '0x407356A4', 0x005E, '0x40988F49', '0x40989082') // would craft greater agility
+        debug('This was keg Nr ' + [u]);
     }
- }
- 
- function Craft_GreaterStrength() {
+}
+
+function Craft_GreaterStrength() {
     for (u = 1; u < 4; u++) {
-     Alchemy('0x0F09', 'mr', 29, 9, '0x4127F68B', '0x407356A4', 0x03E7, '0x40988F49', '0x40989082') // would craft greater strength
-    debug('This was keg Nr ' + [u]);
+        Alchemy('0x0F09', 'mr', 29, 9, '0x4127F68B', '0x407356A4', 0x03E7, '0x40988F49', '0x40989082') // would craft greater strength
+        debug('This was keg Nr ' + [u]);
     }
- }
- 
- function Craft_GreaterCure() {
+}
+
+function Craft_GreaterCure() {
     for (u = 1; u < 2; u++) {
-     Alchemy('0x0F07', 'ga', 43, 16, '0x4127F68B', '0x407356A4', 0x002C, '0x40988F49', '0x40989082') // would craft greater cure
-    debug('This was keg Nr ' + [u]);
+        Alchemy('0x0F07', 'ga', 43, 16, '0x4127F68B', '0x407356A4', 0x002C, '0x40988F49', '0x40989082') // would craft greater cure
+        debug('This was keg Nr ' + [u]);
     }
- }
- 
- function Craft_GreaterExplosion() {
+}
+
+function Craft_GreaterExplosion() {
     for (u = 1; u < 6; u++) {
-     Alchemy('0x0F0D', 'sa', 50, 16, '0x4127F68B', '0x407356A4', 0x0013, '0x40988F49', '0x40989082') // would craft greater explosion
-    debug('This was keg Nr ' + [u]);
+        Alchemy('0x0F0D', 'sa', 50, 16, '0x4127F68B', '0x407356A4', 0x0013, '0x40988F49', '0x40989082') // would craft greater explosion
+        debug('This was keg Nr ' + [u]);
     }
- }
- 
- function Craft_GreaterHeal() {
+}
+
+function Craft_GreaterHeal() {
     for (u = 1; u < 6; u++) {
-     Alchemy('0x0F0C', 'gs', 22, 16, '0x4127F68B', '0x407356A4', 0x0036, '0x40988F49', '0x40989082') // would craft greater heal
-    debug('This was keg Nr ' + [u]);
+        Alchemy('0x0F0C', 'gs', 22, 16, '0x4127F68B', '0x407356A4', 0x0036, '0x40988F49', '0x40989082') // would craft greater heal
+        debug('This was keg Nr ' + [u]);
     }
- }
- 
- function Craft_TotalRefresh() {
+}
+
+function Craft_TotalRefresh() {
     for (u = 1; u < 10; u++) {
-     Alchemy('0x0F0B', 'bp', 1, 9, '0x4127F68B', '0x407356A4', 0x0022, '0x40988F49', '0x40989082') // would craft greater heal
-    debug('This was keg Nr ' + [u]);
+        Alchemy('0x0F0B', 'bp', 1, 9, '0x4127F68B', '0x407356A4', 0x0022, '0x40988F49', '0x40989082') // would craft greater heal
+        debug('This was keg Nr ' + [u]);
     }
- }
- 
- function FillKeg(Filltype) {
-     var CurrentKeg = Orion.FindType('0x1940');
-     var CurrentPotion = Orion.FindType(Filltype);
+}
+
+function FillKeg(Filltype) {
+    var CurrentKeg = Orion.FindType('0x1940');
+    var CurrentPotion = Orion.FindType(Filltype);
     while (Orion.Count(Filltype) > 0) {
-         for (var i = 0; i < CurrentPotion.length; i++) {
-             BeforeAction = Orion.Now();
-             Orion.MoveItem(CurrentPotion[i], 999, CurrentKeg);
-             checklag(50000);
-             Orion.Wait(1000);
-             if (Orion.InJournal('The keg will not hold any more!', -1, 'my', -1, BeforeAction, Orion.Now())) {
-                 Orion.CharPrint(self, 1153, 'Keg is full,  ' + Orion.Count('0x0F0B') + ' potions left over..');
-                 return  // for future - maybe return full?
-             } else {
-                 Orion.CharPrint(self, 1153, 'potion filled');
-             }
-         }
-     }
- }
- 
- /**
-  *  Alchemy('0x0F0D', 'sa', 50, 16, '0x4127F68B', '0x407356A4', 0x0013, '0x40988F49', '0x40989082') 
-  */
- function Alchemy(craftedpottype, currentreg, category, selection, regbag, crafttoolbag, kegcolor, emptykegs, fullkegs) {
-     var crafttool = '0x0E9B';
-     var emptybottle = '0x0F0E';
-     restock2([['0x1940', 999, kegcolor],[]], 'backpack', fullkegs); // Unload finished keg
-     restock2([['0x1940', 1, kegcolor],[]], emptykegs, 'backpack'); // load empty keg
-     debug('started crafting keg');
-     while (!Orion.Count(craftedpottype, '-1', backpack) > 0) {
-         restock2([[currentreg, 400, 0x0000],[]], regbag, 'backpack');
-         restock2([[crafttool, 1, 0x0000],[]], crafttoolbag, 'backpack');
-         Orion.Print('Crafting pot for keg');
-         Orion.UseType(crafttool);
-         Orion.CancelWaitGump();
-         Orion.WaitGump(Orion.CreateGumpHook(category));
-         Orion.WaitForGump(2000);
-         Orion.CancelWaitGump();
-         Orion.WaitGump(Orion.CreateGumpHook(selection));
-         Orion.WaitForGump(2000);
-         
-     }
-     Orion.Print('Some potions are crafted, preparing keg')
-     FillKeg(craftedpottype);
-     Orion.UseType(crafttool);
-     while (!Orion.Count(craftedpottype, '-1', backpack) > 0) {
-         while (Orion.Count(crafttool, '-1', backpack) < 1) {
-             Orion.Print('Not enough tools')
-             restock2([[crafttool, 1, 0x0000],[]], crafttoolbag, 'backpack');
-             Orion.UseType(crafttool);
-         }
-         while (Orion.Count(currentreg, '-1', backpack) < 20) {
-             Orion.Print('Not enough regs')
-             restock2([[currentreg, 400, 0x0000],[]], regbag, 'backpack');
-             Orion.UseType(crafttool);
-         }
-         Orion.CancelWaitGump();
-         Orion.WaitGump(Orion.CreateGumpHook(selection));
-         Orion.WaitForGump(2000);
-         Orion.Print('Potion ready')
+        for (var i = 0; i < CurrentPotion.length; i++) {
+            BeforeAction = Orion.Now();
+            Orion.MoveItem(CurrentPotion[i], 999, CurrentKeg);
+            checklag(50000);
+            Orion.Wait(1000);
+            if (Orion.InJournal('The keg will not hold any more!', -1, 'my', -1, BeforeAction, Orion.Now())) {
+                Orion.CharPrint(self, 1153, 'Keg is full,  ' + Orion.Count('0x0F0B') + ' potions left over..');
+                return // for future - maybe return full?
+            } else {
+                Orion.CharPrint(self, 1153, 'potion filled');
+            }
+        }
     }
-    restock2([['0x1940', 999, kegcolor],[]], 'backpack', fullkegs); // Unload finished keg
+}
+
+/**
+  *  Alchemy('0x0F0D', 'sa', 50, 16, '0x4127F68B', '0x407356A4', 0x0013, '0x40988F49', '0x40989082')
+  */
+function Alchemy(craftedpottype, currentreg, category, selection, regbag, crafttoolbag, kegcolor, emptykegs, fullkegs) {
+    var crafttool = '0x0E9B';
+    var emptybottle = '0x0F0E';
+    restock2([
+        [
+            '0x1940', 999, kegcolor
+        ],
+        []
+    ], 'backpack', fullkegs); // Unload finished keg
+    restock2([
+        [
+            '0x1940', 1, kegcolor
+        ],
+        []
+    ], emptykegs, 'backpack'); // load empty keg
+    debug('started crafting keg');
+    while (!Orion.Count(craftedpottype, '-1', backpack) > 0) {
+        restock2([
+            [
+                currentreg, 400, 0x0000
+            ],
+            []
+        ], regbag, 'backpack');
+        restock2([
+            [
+                crafttool, 1, 0x0000
+            ],
+            []
+        ], crafttoolbag, 'backpack');
+        Orion.Print('Crafting pot for keg');
+        Orion.UseType(crafttool);
+        Orion.CancelWaitGump();
+        Orion.WaitGump(Orion.CreateGumpHook(category));
+        Orion.WaitForGump(2000);
+        Orion.CancelWaitGump();
+        Orion.WaitGump(Orion.CreateGumpHook(selection));
+        Orion.WaitForGump(2000);
+
+    }
+    Orion.Print('Some potions are crafted, preparing keg')
+    FillKeg(craftedpottype);
+    Orion.UseType(crafttool);
+    while (!Orion.Count(craftedpottype, '-1', backpack) > 0) {
+        while (Orion.Count(crafttool, '-1', backpack) < 1) {
+            Orion.Print('Not enough tools')
+            restock2([
+                [
+                    crafttool, 1, 0x0000
+                ],
+                []
+            ], crafttoolbag, 'backpack');
+            Orion.UseType(crafttool);
+        }
+        while (Orion.Count(currentreg, '-1', backpack) < 20) {
+            Orion.Print('Not enough regs')
+            restock2([
+                [
+                    currentreg, 400, 0x0000
+                ],
+                []
+            ], regbag, 'backpack');
+            Orion.UseType(crafttool);
+        }
+        Orion.CancelWaitGump();
+        Orion.WaitGump(Orion.CreateGumpHook(selection));
+        Orion.WaitForGump(2000);
+        Orion.Print('Potion ready')
+    }
+    restock2([
+        [
+            '0x1940', 999, kegcolor
+        ],
+        []
+    ], 'backpack', fullkegs); // Unload finished keg
     debug('finished crafting keg');
- }
- 
- function checklag(TimeOut) {
-     ChecklagBeforeAction = Orion.Now();
-     ChecklagAfterAction = Orion.Now() + TimeOut;
-     Orion.Click(backpack);
-     Orion.WaitJournal('backpack', ChecklagBeforeAction, ChecklagAfterAction, '');
- }
- 
- function restock2(restock_items, restock_source, restock_destination) {
-     var CurrentItem = restock_items;
-     var CurrentRow = CurrentItem.length;
-     Orion.UseObject(restock_source);
-     Orion.Wait(1000)
-     checklag()
-     for (i = 0; i < CurrentRow - 1; i++) {
-         var CurrentItemLocal = Orion.Count(CurrentItem[i][0]);
-         if (CurrentItemLocal < CurrentItem[i][1]) {
-             itemfound = Orion.FindType(CurrentItem[i][0], CurrentItem[i][2], restock_source);
-             if (itemfound.length) {
-                 Orion.MoveItem(itemfound[0], CurrentItem[i][1] - CurrentItemLocal, restock_destination);
-                 checklag(50000);
-                 Orion.Wait(600);
-             }
-         }
-     }
- }
- 
- function debug(InputText) {
-     var DebugMessages = true;
-     if (DebugMessages) {
-         Orion.Print('--  ' + InputText + '  --');
-         Orion.CharPrint(self, 1153, '--  ' + InputText + '  --');
-         if (!TextWindow.Open()) {
-             TextWindow.Open();
-         }
-         TextWindow.Print(Orion.Time('hh:mm:ss') + '--  ' + InputText + '  --');
-     }
- } 
+}
+
+function checklag(TimeOut) {
+    ChecklagBeforeAction = Orion.Now();
+    ChecklagAfterAction = Orion.Now() + TimeOut;
+    Orion.Click(backpack);
+    Orion.WaitJournal('backpack', ChecklagBeforeAction, ChecklagAfterAction, '');
+}
+
+function restock2(restock_items, restock_source, restock_destination) {
+    var CurrentItem = restock_items;
+    var CurrentRow = CurrentItem.length;
+    Orion.UseObject(restock_source);
+    Orion.Wait(1000);
+    checklag(5000);
+    for (i = 0; i < CurrentRow - 1; i++) {
+        var CurrentItemLocal = Orion.Count(CurrentItem[i][0]);
+        if (CurrentItemLocal < CurrentItem[i][1]) {
+            itemfound = Orion.FindType(CurrentItem[i][0], CurrentItem[i][2], restock_source);
+            if (itemfound.length) {
+                Orion.MoveItem(itemfound[0], CurrentItem[i][1] - CurrentItemLocal, restock_destination);
+                checklag(50000);
+                Orion.Wait(600);
+            }
+        }
+    }
+}
+
+function debug(InputText) {
+    var DebugMessages = true;
+    if (DebugMessages) {
+        Orion.Print('--  ' + InputText + '  --');
+        Orion.CharPrint(self, 1153, '--  ' + InputText + '  --');
+        if (!TextWindow.Open()) {
+            TextWindow.Open();
+        }
+        TextWindow.Print(Orion.Time('hh:mm:ss') + '--  ' + InputText + '  --');
+    }
+}
